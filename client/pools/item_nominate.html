@@ -1,0 +1,12 @@
+<template name="nominate">
+	<li class="collection-nominate">
+		<input name="{{name_radio}}" type="radio" id="{{name_radio}}_{{name_underline}}" data="{{id}}" />
+		<label class="selectNom" for="{{name_radio}}_{{name_underline}}" style="width:100%;height: 100%;">{{name}}
+		<p class="summary">{{summary}}<br>
+			<a href="{{url_imdb}}" target="_blank">More Info (IMDB)</a>
+
+		</p>
+		<a href="#!" class="secondary-content item_img_nom"><img class="circle-mod icon_nominate" src="{{img_movie}}">
+		</a></label>
+	</li>
+</template>
