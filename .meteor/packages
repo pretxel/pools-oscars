@@ -26,3 +26,6 @@ meteorhacks:npm
 
 
 npm-container
+aldeed:simple-schema
+percolate:migrations
+dburles:collection-helpers

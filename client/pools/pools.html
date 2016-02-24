@@ -2,9 +2,8 @@
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<title>pools</title>
 	<!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
-
 <body style="background-image: url('/images/background.jpg');height: 100px;background-size: cover;">
 	<div class="navbar-fixed">
 		<nav>
@@ -16,73 +15,59 @@
 			</div>
 		</nav>
 	</div>
-
 	<div class="container">
-
 		{{#each categories_obj}}
 		{{> category}}
 		{{/each}}
-
 	</div>
-
-
 	<div class="backLoader">
-			<div class="preloader-wrapper small active loader" hidden>
-					<div class="spinner-layer spinner-green-only">
-						<div class="circle-clipper left">
-							<div class="circle"></div>
-						</div>
-						<div class="gap-patch">
-							<div class="circle"></div>
-						</div>
-						<div class="circle-clipper right">
-							<div class="circle"></div>
-						</div>
-					</div>
-				</div>	
-
+		<div class="preloader-wrapper small active loader" hidden>
+			<div class="spinner-layer spinner-green-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
 	</div>
-
-
 	<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-		<a id="mainButton" class="btn-floating btn-large red waves-effect waves-light modal-trigger disabled" href="#modal2">
+		<button id="mainButton" class="btn-floating btn-large red waves-effect waves-light disabled" disabled="true">
 			<i class="large material-icons">send</i>
-		</a>
+		</button>
 	</div>
-
-<!-- 	<div class="fixed-action-btn" style="bottom: 45px; left: 24px;">
-		<a id="resetButton" class="btn-floating btn-large blue waves-effect waves-light">
-			<i class="large material-icons">cancel</i>
-		</a>
-	</div> -->
-
-
+	<!-- 	<div class="fixed-action-btn" style="bottom: 45px; left: 24px;">
+			<a id="resetButton" class="btn-floating btn-large blue waves-effect waves-light">
+					<i class="large material-icons">cancel</i>
+			</a>
+	</div>
+	-->
 	<!-- Modal Structure -->
 	<div id="modal1" class="modal modal-fixed-footer modal-instrucciones">
 		<div class="modal-content">
 			<h4>2016 Oscar Prediction</h4>
 			<h5>Instructions:</h5>
 			<p>This is a demo website with <a href="https://www.meteor.com/" target="_blank">Meteor</a>, the objetive of this is create some predictions about the 88th Academy Awards ceremony.</p>
-			<p>The results are available on February 29th, 2016.</p>
+			<p>The results will available on February 29th, 2016.</p>
 			<p>The nominatios are ordered by category, please choose and send your prediction.</p>
 		</div>
 		<div class="modal-footer">
 			<a href="#!" class="modal-action modal-close waves-effect waves-green btn btn-continuar">Continue</a>
 		</div>
 	</div>
-
-
 	<div id="modal2" class="modal bottom-sheet">
 		<form class="newPrediction">
 			<div class="modal-content center">
 				<h4>Send your prediction</h4>
-				<label>You must to write a prediction name</label>
+				<label>You must write a prediction name</label>
 				<div class="input-field col s12">
 					<input id="name" name="name" type="text" class="validate">
 					<label for="name">Prediction Name</label>
 				</div>
-
-
 			</div>
 			<div class="modal-footer">
 				<button  type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Send</button>
@@ -91,41 +76,34 @@
 			</div>
 		</form>
 	</div>
-
 	<!-- Modal Structure Thanks -->
 	<div id="modal3" class="modal">
 		<div class="modal-content">
 			<h4>Thank you for you prediction</h4>
 			<p>You will see your correct predictions on February 29th, 2016</p>
 		</div>
-    <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onclick="location.reload();">Finish</a>
-  </div>
-</div>
-
-
-	  <!-- Modal Structure Result -->
-  <div id="modalResult" class="modal">
-    <div class="modal-content">
-      <h4>Rank</h4>
-      <table class="striped">
-        <thead>
-          <tr>
-              <th data-field="id">Name</th>
-              <th data-field="price">Points</th>
-          </tr>
-        </thead>
-
-        <tbody>
-        {{#each prediction_obj}}
-			{{> prediction}}
-		{{/each}}
-        </tbody>
-      </table>
-    </div>
-  </div>
-         
-
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onclick="location.reload();">Finish</a>
+		</div>
+	</div>
+	<!-- Modal Structure Result -->
+	<div id="modalResult" class="modal">
+		<div class="modal-content">
+			<h4>Rank</h4>
+			<table class="striped">
+				<thead>
+					<tr>
+						<th data-field="id">Name</th>
+						<th data-field="price">Points</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each prediction_obj}}
+					{{> prediction}}
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
+	</div>
 
 </body>
-

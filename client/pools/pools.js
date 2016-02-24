@@ -31,6 +31,7 @@ $(document).on('click.card', '.card', function (e) {
               if (categoriesChecked == totalCategories){
                 // Show button
                 $("#mainButton").removeClass("disabled");
+                $("#mainButton").removeAttr("disabled");
                 // $('.modal-trigger').leanModal();
                 $('#modal2').openModal();
               }
@@ -70,30 +71,29 @@ $(document).on('click.card', '.card', function (e) {
 
   });
 
-
-$(document).on('click.card', '.card', function (e) { 
-      if ($(this).find('> .card-reveal').length) {                                                                   
-        if ($(e.target).is($('.card-reveal .card-title')) || $(e.target).is($('.card-reveal .card-title i')) || $(e.target).is($('.selectNom .summary')) ) {       
-          // Make Reveal animate down and display none                                                                
-          $(this).find('.card-reveal').velocity(                                                                     
-            {translateY: 0}, {                                                                                        
-              duration: 225,                                                                                        
-              queue: false,                                                                                           
-              easing: 'easeInOutQuad',                                                                                
-              complete: function() { $(this).css({ display: 'none'}); }                                               
-            }                                                                                                      
-          );                                                                                                    
-        }                                                                                                        
-        else if ($(e.target).is($('.card .activator')) ||                                                     
-                 $(e.target).is($('.card .activator i')) ) {                                                      
-          $(e.target).closest('.card').css('overflow', 'hidden');                                                   
+$(document).on('click.card', '.card', function (e) {
+      if ($(this).find('> .card-reveal').length) {
+        if ($(e.target).is($('.card-reveal .card-title')) || $(e.target).is($('.card-reveal .card-title i')) || $(e.target).is($('.selectNom .summary')) ) {
+          // Make Reveal animate down and display none
+          $(this).find('.card-reveal').velocity(
+            {translateY: 0}, {
+              duration: 225,
+              queue: false,
+              easing: 'easeInOutQuad',
+              complete: function() { $(this).css({ display: 'none'}); }
+            }
+          );
+        }
+        else if ($(e.target).is($('.card .activator')) ||
+                 $(e.target).is($('.card .activator i')) ) {
+          $(e.target).closest('.card').css('overflow', 'hidden');
           $(this).find('.card-reveal').css({ display: 'block'}).velocity("stop", false).velocity({translateY: '-100%'}, {duration: 300, queue: false, easing: 'easeInOutQuad'});
-        }                                                                                                             
-      }                                                                                                               
+        }
+      }
 
       $('.card-reveal').closest('.card').css('overflow', 'hidden');
 
-});   
+});
 
 function disableScroll() {
   if (window.addEventListener) // older FF
@@ -113,10 +113,17 @@ function showStatus(){
 $(document).on('click','#resetButton', function(){
 
   $('.backLoader').show();
-  var opt = {category: 1, precition: 0};
+  var opt = {category: 1, prediction: 1};
   resetDB(opt);
 
-})
+});
+
+$(document).on('click','#mainButton', function(){
+  $('#modal2').openModal();
+ 
+});
+
+
 
 
 function resetDB(opt){
@@ -130,7 +137,7 @@ function resetDB(opt){
 Meteor.call('getCategories', function (err, result) {
   if (err)
     console.log(err);
-  else 
+  else
     // console.log(result.length);
     totalCategories = result.length;
     Session.set('myMethodResult', result);
@@ -140,7 +147,7 @@ Meteor.call('getCategories', function (err, result) {
 Meteor.call('getPredictions', function (err, result) {
   if (err)
     console.log(err);
-  else 
+  else
     // console.log(result.length);
     Session.set('myMethodResultPred', result);
   });
@@ -165,7 +172,7 @@ Template.body.events({
     $('.backLoader').show();
     var name = event.target.name.value;
 
-    var categories = [];  
+    var categories = [];
     var nameCategory = "";
     var listNominates = $(".list_nominates li input");
     $(listNominates).each(function(index, element){
@@ -184,18 +191,35 @@ Template.body.events({
 
     });
 
-    var prediction = {
+var prediction = {
       name: name,
       categories: categories,
       createdAt: new Date()
     };
 
-
-     Meteor.call('insertPrediction', prediction , function (err, result) {
-      console.log(result);
+    if (name.trim() == ""){
+      console.log("No tiene nombre");
+      Materialize.toast('Name required', 4000);
       $('.backLoader').hide();
-      $('#modal3').openModal();
+      $('#modal2').openModal();
+    }else{
+      Meteor.call('insertPrediction', prediction , function (err, result) {
+      console.log(result);
+      if (result == "exist_name"){
+        Materialize.toast('Name already exists', 4000);
+        $('.backLoader').hide();
+        $('#modal2').openModal();
+      }else if(result === "Success"){
+        $('.backLoader').hide();
+        $('#modal3').openModal();
+      }else if (result === "Data not valid"){
+        Materialize.toast(result, 4000);
+        $('.backLoader').hide();
+        $('#modal2').openModal();
+      }
     });
+    }
+
 
     // location.reload();
 

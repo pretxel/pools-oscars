@@ -22,6 +22,26 @@ var dataBestMovie = {
 		name: "Room",
 		id: 4,
 		name_radio: "movie"
+	},
+	{
+		name: "The Big Short",
+		id: 5,
+		name_radio: "movie"
+	},
+	{
+		name: "Bridge of Spies",
+		id: 6,
+		name_radio: "movie"
+	},
+	{
+		name: "Brooklyn",
+		id: 7,
+		name_radio: "movie"
+	},
+	{
+		name: "Spotlight",
+		id: 8,
+		name_radio: "movie"
 	}
 	]
 };

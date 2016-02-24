@@ -3,6 +3,57 @@ Predictions = new Meteor.Collection("predictions");
 var og = Meteor.npmRequire('open-graph');
 
 
+CategoriesSchema = new SimpleSchema({
+	name_category: {
+		type: String
+	},
+	cat_img: {
+		type: String
+	},
+	name_radio: {
+		type: String
+	},
+	nominates: {
+		type: [Object]
+	}
+});
+
+
+PredictionsCategorySchema = new SimpleSchema({
+	category:{
+		type: String
+	},
+	selectedId:{
+		type: String
+	}
+});
+
+
+PredictionsSchema = new SimpleSchema({
+	name: {
+		type: String,
+		regEx: /^[A-Za-z0-9]+$/,
+		max: 50
+	},
+	categories: {
+		type: [PredictionsCategorySchema]
+	},
+	createdAt: {
+		type: Date
+	}
+	
+});
+
+
+Predictions.helpers({
+  predicEmpty: function() {
+    return Predictions.find({},{sort: {points: -1}});
+  }
+});
+
+// Predictions.attachSchema(Predictions.schema);
+
+
 replaceAll = function(text, search, replacement) {
     return text.replace(new RegExp(search, 'g'), replacement);
 }
@@ -10,6 +61,7 @@ replaceAll = function(text, search, replacement) {
 
 Meteor.startup(function () {
     // code to run on server at startup
+    Migrations.migrateTo('latest');
     if (Categories.find({}).fetch().length == 0){
     	// Create Data by default
     	console.log("Insert Data by default");
@@ -72,7 +124,20 @@ resetDB: function (opt) {
 insertPrediction: function (data) {
     // check(arg1, String);
     if (data!= undefined){
-    	Predictions.insert(data);
+
+    	var prediction_exist = Predictions.find({name:data.name}).fetch();
+    	if(prediction_exist.length > 0){
+    		return "exist_name";
+    	}else{	
+    		try{
+    			PredictionsSchema.validate(data);
+    			Predictions.insert(data);
+    		}
+    		catch(e){
+    			console.log(e);
+    			return "Data not valid";
+    		}
+    	}
     }else{
     	return "Miss opt variable";
     }
@@ -123,7 +188,7 @@ getCategories: function(){
 					    if (element.url_imdb == undefined){
 					    	console.log("No hay imagen, se va consultar API Google Custom Search");
 					    	var wrapperGET  = Meteor.wrapAsync( HTTP.get ),
-							wrapperGETSync = wrapperGET( "https://www.googleapis.com/customsearch/v1?key="+key4+"&cx="+cx+"&q="+query, {} );
+							wrapperGETSync = wrapperGET( "https://www.googleapis.com/customsearch/v1?key="+key2+"&cx="+cx+"&q="+query, {} );
 
 							// console.log(wrapperGETSync.data.items.length);
 							element.url_imdb = wrapperGETSync.data.items[0].link;
