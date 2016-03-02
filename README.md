@@ -18,7 +18,7 @@ Then you need to run meteor with:
 meteor run
 ```
 
-
+Test it on [http://pools-oscars.meteor.com/](http://pools-oscars.meteor.com/)
 
 
  
